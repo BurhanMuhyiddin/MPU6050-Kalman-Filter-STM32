@@ -1,0 +1,14 @@
+mpu6050.c:18:6:MPU6050_Init	16	static
+mpu6050.c:23:6:I2C_Read	32	static
+mpu6050.c:34:6:I2C_Write8	32	static
+mpu6050.c:46:6:MPU6050_Config	24	static
+mpu6050.c:112:9:MPU6050_Get_SMPRT_DIV	16	static
+mpu6050.c:120:6:MPU6050_Set_SMPRT_DIV	16	static
+mpu6050.c:125:6:MPU6050_Get_Accel_RawData	40	static
+mpu6050.c:146:6:MPU6050_Get_Accel_ScaledData	24	static
+mpu6050.c:157:6:MPU6050_Get_Accel_Cali	32	static
+mpu6050.c:168:6:MPU6050_Get_Gyro_RawData	16	static
+mpu6050.c:175:6:MPU6050_Get_Gyro_ScaledData	24	static
+mpu6050.c:186:6:_Accel_Cali	32	static
+mpu6050.c:193:6:getTiltAngle_Accel	48	static
+mpu6050.c:203:6:getTiltAngle_Gyro	24	static
