@@ -18,11 +18,14 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
-#include "main.h"
+//#define ARM_MATH_CM4
 
+#include "main.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "mpu6050.h"
+#include "kalmanFilter.h"
+//#include "arm_math.h"
 #include <string.h>
 /* USER CODE END Includes */
 
@@ -108,6 +111,15 @@ int main(void)
 
   float dt;
   float old_time_instant = HAL_GetTick();
+  float angles[3] = {0.0, 0.0, 0.0};
+
+  float xHat[2] = {0.0, 0.0};
+  float p[2][2] = {{1.0, 1.0}, {1.0, 1.0}};
+  float q[2][2] = {{0.01, 0.01}, {0.01, 0.01}};
+  float r = 0.035;
+
+  KalmanFilter_initialize(xHat, p, q, r);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -137,8 +149,14 @@ int main(void)
 	  allData[4] = gyro_angle.pitch * DEG2RAD;
 	  allData[5] = gyro_angle.yaw * DEG2RAD;
 
-	  uint8_t *byteData = (uint8_t *) (allData);
-	  HAL_UART_Transmit(&huart2, byteData, sizeof(allData), 100);
+	  // Apply kalman filter
+	  KalmanFilter_update(allData[3], allData[0], dt);
+	  angles[0] = allData[0];
+	  angles[1] = allData[3];
+	  angles[2] = KalmanFilter_getAngle();
+
+	  uint8_t *byteData = (uint8_t *) (angles);
+	  HAL_UART_Transmit(&huart2, byteData, sizeof(angles), 100);
 
 	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
 	  HAL_Delay(10);

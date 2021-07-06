@@ -53,9 +53,9 @@ class SerialPlotter:
 
     def getSerialData(self, frame, lines, lineLabel):
         value = struct.unpack('ffffff', self.rawData)
-        print(value)
+        # print(value)
         for i in range(self.numPlots):
-            self.data[i].append(value[i+self.numPlots])
+            self.data[i].append(value[i])
             lines[i].set_data(range(self.plotMaxLength), self.data[i])
 
     def close(self):
@@ -80,7 +80,7 @@ def main():
     FigurePropertiesStruct = namedtuple(
         "fpStruct", "figTitle, xTitle, yTitle, legend, xRange, yRange, figSize")
     fp1 = FigurePropertiesStruct(
-        figTitle="Tilt Angle", xTitle="t", yTitle="acc angle(rad)", legend=('roll', 'pitch', 'yaw'),
+        figTitle="Tilt Angle Kalman", xTitle="t", yTitle="angle(rad)", legend=('roll', 'pitch', 'yaw'),
         xRange=(0, sp1.maxPlotLength), yRange=(-3.14, 3.14), figSize=(10, 8))
 
     fig = plt.figure(figsize=fp1.figSize)
@@ -92,13 +92,13 @@ def main():
     ax.set_xlabel(fp1.xTitle)
     ax.set_ylabel(fp1.yTitle)
 
-    lineLabel = ['roll', 'pitch', 'yaw']
+    lineLabel = ['acc roll', 'gyro roll', 'kalman roll']
     style = ['r-', 'c-', 'b-']  # linestyles for the different plots
     lines = []
     for i in range(sp1.numPlots):
         lines.append(ax.plot([], [], style[i], label=lineLabel[i])[0])
     anim = animation.FuncAnimation(fig, s.getSerialData, fargs=(
-        lines, lineLabel), interval=10)
+        lines, lineLabel), interval=5)
 
     try:
         plt.legend(loc="upper left")

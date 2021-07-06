@@ -62,7 +62,7 @@ main-build: MPU6050.elf secondary-outputs
 
 # Tool invocations
 MPU6050.elf: $(OBJS) $(USER_OBJS) /mnt/sda1/documents/STMEmbeddedProjects/Workspace/MPU6050/STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "MPU6050.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/mnt/sda1/documents/STMEmbeddedProjects/Workspace/MPU6050/STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MPU6050.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+	arm-none-eabi-gcc -o "MPU6050.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/mnt/sda1/documents/STMEmbeddedProjects/Workspace/MPU6050/STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MPU6050.map" -Wl,--gc-sections -static -Wl,--start-group -larm_cortexM4lf_math -Wl,--end-group -L/mnt/sda1/documents/STMEmbeddedProjects/Workspace/MPU6050/libs --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
