@@ -28,7 +28,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+#define DEG2RAD		0.0174533
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -60,8 +60,7 @@ static void MX_USART2_UART_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 // RawData_Def accelRawData, gyroRawData;
-ScaledData_Def accelScaledData, gyroScaledData;
-TiltAngle_Def acc_angle, gyro_angle;
+
 /* USER CODE END 0 */
 
 /**
@@ -104,12 +103,19 @@ int main(void)
   mpuConfig.Sleep_Mode_Bit	 = 0;
   MPU6050_Config(&mpuConfig);
 
+  ScaledData_Def accelScaledData, gyroScaledData;
+  TiltAngle_Def acc_angle, gyro_angle;
+
   float dt;
   float old_time_instant = HAL_GetTick();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  gyro_angle.roll = 0.0;
+  gyro_angle.pitch = 0.0;
+  gyro_angle.yaw = 0.0;
+
   while (1)
   {
     /* USER CODE END WHILE */
@@ -124,15 +130,15 @@ int main(void)
 
 	  getTiltAngle_Gyro(&gyroScaledData, dt, &gyro_angle);
 
-//	  allData[0] = acc_angle.roll;
-//	  allData[1] = acc_angle.pitch;
-//	  allData[2] = acc_angle.yaw;
-//	  allData[3] = gyro_angle.roll;
-//	  allData[4] = gyro_angle.pitch;
-//	  allData[5] = gyro_angle.yaw;
+	  allData[0] = acc_angle.roll;
+	  allData[1] = acc_angle.pitch;
+	  allData[2] = acc_angle.yaw;
+	  allData[3] = gyro_angle.roll * DEG2RAD;
+	  allData[4] = gyro_angle.pitch * DEG2RAD;
+	  allData[5] = gyro_angle.yaw * DEG2RAD;
 
-//	  uint8_t *byteData = (uint8_t *) (allData);
-//	  HAL_UART_Transmit(&huart2, byteData, sizeof(allData), 100);
+	  uint8_t *byteData = (uint8_t *) (allData);
+	  HAL_UART_Transmit(&huart2, byteData, sizeof(allData), 100);
 
 	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
 	  HAL_Delay(10);

@@ -10,5 +10,5 @@ mpu6050.c:157:6:MPU6050_Get_Accel_Cali	32	static
 mpu6050.c:168:6:MPU6050_Get_Gyro_RawData	16	static
 mpu6050.c:175:6:MPU6050_Get_Gyro_ScaledData	24	static
 mpu6050.c:186:6:_Accel_Cali	32	static
-mpu6050.c:193:6:getTiltAngle_Accel	48	static
+mpu6050.c:193:6:getTiltAngle_Accel	40	static
 mpu6050.c:203:6:getTiltAngle_Gyro	24	static

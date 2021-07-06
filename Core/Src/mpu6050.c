@@ -195,9 +195,9 @@ void getTiltAngle_Accel(ScaledData_Def *acc_inp, TiltAngle_Def *acc_angle)
 	float ax = acc_inp->x;
 	float ay = acc_inp->y;
 	float az = acc_inp->z;
-	acc_angle->roll  = atan2( ax, sqrt(ay * ay + az * az) );
-	acc_angle->pitch = atan2( ay, sqrt(ax * ax + az * az) );
-	acc_angle->yaw   = atan2( sqrt(ax * ax + ay * ay), az );
+	acc_angle->roll  = atan2( ay, az );
+	acc_angle->pitch = -atan2( ax, az );
+	acc_angle->yaw   = 0.0; //atan2( sqrt(ax * ax + ay * ay), az );
 }
 
 void getTiltAngle_Gyro(ScaledData_Def *gyro_inp, float dt, TiltAngle_Def *gyr_angle)
