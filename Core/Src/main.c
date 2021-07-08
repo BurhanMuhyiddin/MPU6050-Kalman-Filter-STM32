@@ -111,14 +111,17 @@ int main(void)
 
   float dt;
   float old_time_instant = HAL_GetTick();
-  float angles[3] = {0.0, 0.0, 0.0};
+  float angles[6] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
   float xHat[2] = {0.0, 0.0};
   float p[2][2] = {{1.0, 1.0}, {1.0, 1.0}};
   float q[2][2] = {{0.01, 0.01}, {0.01, 0.01}};
   float r = 0.035;
 
-  KalmanFilter_initialize(xHat, p, q, r);
+  Kalman_ParamsTypeDef kalman_roll, kalman_pitch;
+
+  KalmanFilter_initialize(&kalman_roll, xHat, p, q, r);
+  KalmanFilter_initialize(&kalman_roll, xHat, p, q, r);
 
   /* USER CODE END 2 */
 
@@ -150,10 +153,15 @@ int main(void)
 	  allData[5] = gyro_angle.yaw * DEG2RAD;
 
 	  // Apply kalman filter
-	  KalmanFilter_update(allData[3], allData[0], dt);
+	  KalmanFilter_update(&kalman_roll, allData[3], allData[0], dt);
 	  angles[0] = allData[0];
 	  angles[1] = allData[3];
-	  angles[2] = KalmanFilter_getAngle();
+	  angles[2] = KalmanFilter_getAngle(&kalman_roll);
+
+	  KalmanFilter_update(&kalman_pitch, allData[4], allData[1], dt);
+	  angles[3] = allData[1];
+	  angles[4] = allData[4];
+	  angles[5] = KalmanFilter_getAngle(&kalman_pitch);
 
 	  uint8_t *byteData = (uint8_t *) (angles);
 	  HAL_UART_Transmit(&huart2, byteData, sizeof(angles), 100);
