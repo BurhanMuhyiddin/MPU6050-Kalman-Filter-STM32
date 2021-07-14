@@ -18,6 +18,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->radioButtonQuadratic->setChecked(true);
 
+    spc = new SerialPortConfiguration;
+    splc = new SerialPlotConfiguration;
+    stmBoard = new QSerialPort(this);
+    isBoardAvailable = false;
+
+    splc->numPlots = 6;
+    splc->numSamples = 50;
+
     check_vendor_product_id();
     connectToSerialPort();
 }
@@ -27,50 +35,39 @@ MainWindow::~MainWindow()
     if(stmBoard->isOpen())
         stmBoard->close();
 
+    delete spc;
+    delete splc;
+    delete stmBoard;
+
     delete ui;
 }
 
 void MainWindow::on_pushButtonPlot_clicked()
 {
-    int functionType = ui->buttonGroupRadio->checkedId();
+//    int functionType = ui->buttonGroupRadio->checkedId();
 
-    VectorXd xValues, yValues;
-    xValues.setLinSpaced(1000, -1, 1);
-    int size_xValues = xValues.size();
-    yValues.setZero(size_xValues, 1);
+    VectorXd xValues;
+    xValues.setLinSpaced(50, 1, 50);
 
-    switch (functionType) {
-    case 1:
-        for(int i = 0; i < size_xValues; i++)
-            yValues(i) = pow(xValues(i), 2);
-        break;
-    case 2:
-        for(int i = 0; i < size_xValues; i++)
-            yValues(i) = pow(xValues(i), 3);
-        break;
-    default:
-        break;
-    }
-
-    std::vector<double> xValuesStdVector(xValues.data(), xValues.data() + xValues.rows()*xValues.cols());
-    std::vector<double> yValuesStdVector(yValues.data(), yValues.data() + yValues.rows()*yValues.cols());
+    std::vector<double> xValuesStdVector(xValues.data(), xValues.data() + splc->numSamples);
+    std::vector<double> yValuesStdVector(plotData[0].begin(), plotData[0].end());
 
     QVector<double> xValuesQVector = QVector<double>::fromStdVector(xValuesStdVector);
     QVector<double> yValuesQVector = QVector<double>::fromStdVector(yValuesStdVector);
 
-    double x_maxValue = xValues.maxCoeff();
-    double x_minValue = xValues.minCoeff();
+    float x_maxValue = xValues.maxCoeff();
+    float x_minValue = xValues.minCoeff();
 
-    double y_maxValue = yValues.maxCoeff();
-    double y_minValue = yValues.minCoeff();
+    float y_maxValue = 1.0 * 3.14159265359;
+    float y_minValue = -1.0 * 3.14159265359;
 
     QCustomPlot* customPlot = ui->widgetGraph;
 
     customPlot->addGraph();
     customPlot->graph(0)->setData(xValuesQVector, yValuesQVector);
 
-    customPlot->xAxis->setLabel("x");
-    customPlot->yAxis->setLabel("y");
+    customPlot->xAxis->setLabel("time");
+    customPlot->yAxis->setLabel("accel roll");
 
     customPlot->xAxis->setRange(x_minValue-0.1*abs(x_minValue), x_maxValue + 0.1*abs(x_maxValue));
     customPlot->yAxis->setRange(y_minValue-0.1*abs(y_minValue), y_maxValue + 0.1*abs(y_maxValue));
@@ -88,10 +85,6 @@ void MainWindow::check_vendor_product_id()
 //        if (serialPortInfo.hasProductIdentifier())
 //            qDebug() << "Product ID: " << serialPortInfo.productIdentifier();
 //    }
-    spc = new SerialPortConfiguration;
-    stmBoard = new QSerialPort(this);
-    isBoardAvailable = false;
-
     foreach (const QSerialPortInfo &serialPortInfo, QSerialPortInfo::availablePorts())
     {
         if(serialPortInfo.hasVendorIdentifier() && serialPortInfo.hasProductIdentifier())
@@ -150,14 +143,23 @@ void MainWindow::connectToSerialPort()
 
 void MainWindow::readSerialData()
 {
+    // data0 : roll_accel
+    // data1 : roll_gyro
+    // data2 : roll_kalman
+    // data3 : pitch_accel
+    // data4 : pitch_gyro
+    // data5 : pitch_kalman
     const QByteArray data = stmBoard->readAll();
     const float* ptrFloat = reinterpret_cast<const float*>(data.constData());
-    int numSamples = data.size() / 4;
-    for (int i = 0; i < numSamples; i++)
+//    int numSamples = data.size() / 4;
+    for (int i = 0; i < splc->numPlots; i++)
     {
 //        qDebug() << *ptrFloat;
-        imuData.append(*ptrFloat);
+//        imuData.append(*ptrFloat);
+//        qDebug() << "Reading data...\n";
+        plotData[i].push(*ptrFloat);
         ptrFloat++;
     }
+//    qDebug() << "Finished reading...\n";
 //    qDebug() << "----------------------------\n";
 }
