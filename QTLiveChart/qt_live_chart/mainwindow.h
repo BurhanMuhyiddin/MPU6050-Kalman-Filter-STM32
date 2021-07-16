@@ -2,15 +2,14 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTimer>
 #include <QSerialPort>
 #include <QSerialPortInfo>
 #include <QByteArray>
 #include <queue>
 #include <deque>
 
-namespace Ui {
-class MainWindow;
-}
+#include "serialread.h"
 
 template <typename T, int MaxLen, typename Container=std::deque<T>>
 class FixedQueue : public std::queue<T, Container>
@@ -27,6 +26,10 @@ public:
     }
 };
 
+namespace Ui {
+class MainWindow;
+}
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -36,31 +39,21 @@ public:
     ~MainWindow();
 
 private slots:
-    void configureSerialPort();
-    void readSerialData();
-    void check_vendor_product_id();
-    void connectToSerialPort();
     void on_pushButtonPlot_clicked();
+    void on_pushButtonStop_clicked();
+
+public slots:
+    void plotSerialData();
+    void onReceive(QByteArray inpData);
 
 private:
     Ui::MainWindow *ui;
-    QSerialPort *stmBoard;
-    QList<float> imuData;
-    const quint16 stmDiscovery_vendorID = 6790;
-    const quint16 stmDiscovery_productID = 29987;
-    bool isBoardAvailable;
+    QTimer *tmr;
+    SerialRead *sr;
 
-    typedef struct
-    {
-        QString portName;
-        QIODevice::OpenMode operatingMode;
-        QSerialPort::BaudRate baudRate;
-        QSerialPort::DataBits dataBits;
-        QSerialPort::Parity parity;
-        QSerialPort::StopBits stopBit;
-        QSerialPort::FlowControl flowControl;
-    } SerialPortConfiguration;
-    SerialPortConfiguration *spc;
+    bool flg;
+
+    FixedQueue<float, 50> plotData[6];
 
     typedef struct
     {
@@ -68,8 +61,6 @@ private:
         uint8_t numSamples;
     } SerialPlotConfiguration;
     SerialPlotConfiguration *splc;
-
-    FixedQueue<float, 50> plotData[6];
 };
 
 #endif // MAINWINDOW_H

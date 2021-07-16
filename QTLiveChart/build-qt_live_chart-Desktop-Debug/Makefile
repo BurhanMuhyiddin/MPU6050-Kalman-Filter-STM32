@@ -52,13 +52,17 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../qt_live_chart/main.cpp \
 		../qt_live_chart/mainwindow.cpp \
-		../qt_live_chart/qcustomplot.cpp moc_mainwindow.cpp \
-		moc_qcustomplot.cpp
+		../qt_live_chart/qcustomplot.cpp \
+		../qt_live_chart/serialread.cpp moc_mainwindow.cpp \
+		moc_qcustomplot.cpp \
+		moc_serialread.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		qcustomplot.o \
+		serialread.o \
 		moc_mainwindow.o \
-		moc_qcustomplot.o
+		moc_qcustomplot.o \
+		moc_serialread.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -150,9 +154,11 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		../qt_live_chart/qt_live_chart.pro ../qt_live_chart/mainwindow.h \
-		../qt_live_chart/qcustomplot.h ../qt_live_chart/main.cpp \
+		../qt_live_chart/qcustomplot.h \
+		../qt_live_chart/serialread.h ../qt_live_chart/main.cpp \
 		../qt_live_chart/mainwindow.cpp \
-		../qt_live_chart/qcustomplot.cpp
+		../qt_live_chart/qcustomplot.cpp \
+		../qt_live_chart/serialread.cpp
 QMAKE_TARGET  = qt_live_chart
 DESTDIR       = 
 TARGET        = qt_live_chart
@@ -372,8 +378,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../qt_live_chart/mainwindow.h ../qt_live_chart/qcustomplot.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../qt_live_chart/main.cpp ../qt_live_chart/mainwindow.cpp ../qt_live_chart/qcustomplot.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../qt_live_chart/mainwindow.h ../qt_live_chart/qcustomplot.h ../qt_live_chart/serialread.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../qt_live_chart/main.cpp ../qt_live_chart/mainwindow.cpp ../qt_live_chart/qcustomplot.cpp ../qt_live_chart/serialread.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../qt_live_chart/mainwindow.ui $(DISTDIR)/
 
 
@@ -406,10 +412,11 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -Wall -W -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_qcustomplot.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_qcustomplot.cpp moc_serialread.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_qcustomplot.cpp
-moc_mainwindow.cpp: ../qt_live_chart/mainwindow.h \
+	-$(DEL_FILE) moc_mainwindow.cpp moc_qcustomplot.cpp moc_serialread.cpp
+moc_mainwindow.cpp: ../qt_live_chart/serialread.h \
+		../qt_live_chart/mainwindow.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/mnt/sda1/documents/STMEmbeddedProjects/Workspace/MPU6050/QTLiveChart/qt_live_chart -I/mnt/sda1/libraries_folder/eigen-3.4-rc1 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtSerialPort -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../qt_live_chart/mainwindow.h -o moc_mainwindow.cpp
@@ -418,6 +425,11 @@ moc_qcustomplot.cpp: ../qt_live_chart/qcustomplot.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/mnt/sda1/documents/STMEmbeddedProjects/Workspace/MPU6050/QTLiveChart/qt_live_chart -I/mnt/sda1/libraries_folder/eigen-3.4-rc1 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtSerialPort -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../qt_live_chart/qcustomplot.h -o moc_qcustomplot.cpp
+
+moc_serialread.cpp: ../qt_live_chart/serialread.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/mnt/sda1/documents/STMEmbeddedProjects/Workspace/MPU6050/QTLiveChart/qt_live_chart -I/mnt/sda1/libraries_folder/eigen-3.4-rc1 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtSerialPort -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../qt_live_chart/serialread.h -o moc_serialread.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -439,10 +451,12 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 
 ####### Compile
 
-main.o: ../qt_live_chart/main.cpp ../qt_live_chart/mainwindow.h
+main.o: ../qt_live_chart/main.cpp ../qt_live_chart/mainwindow.h \
+		../qt_live_chart/serialread.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../qt_live_chart/main.cpp
 
 mainwindow.o: ../qt_live_chart/mainwindow.cpp ../qt_live_chart/mainwindow.h \
+		../qt_live_chart/serialread.h \
 		ui_mainwindow.h \
 		../qt_live_chart/qcustomplot.h \
 		/mnt/sda1/libraries_folder/eigen-3.4-rc1/Eigen/Dense \
@@ -691,11 +705,17 @@ mainwindow.o: ../qt_live_chart/mainwindow.cpp ../qt_live_chart/mainwindow.h \
 qcustomplot.o: ../qt_live_chart/qcustomplot.cpp ../qt_live_chart/qcustomplot.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qcustomplot.o ../qt_live_chart/qcustomplot.cpp
 
+serialread.o: ../qt_live_chart/serialread.cpp ../qt_live_chart/serialread.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o serialread.o ../qt_live_chart/serialread.cpp
+
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
 
 moc_qcustomplot.o: moc_qcustomplot.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_qcustomplot.o moc_qcustomplot.cpp
+
+moc_serialread.o: moc_serialread.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_serialread.o moc_serialread.cpp
 
 ####### Install
 

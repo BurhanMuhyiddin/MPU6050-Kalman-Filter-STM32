@@ -24,49 +24,30 @@
      </rect>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButtonQuadratic">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>110</y>
-      <width>112</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>quadratic</string>
-    </property>
-    <attribute name="buttonGroup">
-     <string notr="true">buttonGroupRadio</string>
-    </attribute>
-   </widget>
-   <widget class="QRadioButton" name="radioButtonCubic">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>150</y>
-      <width>112</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>cubic</string>
-    </property>
-    <attribute name="buttonGroup">
-     <string notr="true">buttonGroupRadio</string>
-    </attribute>
-   </widget>
    <widget class="QPushButton" name="pushButtonPlot">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>290</y>
+      <y>130</y>
       <width>89</width>
       <height>25</height>
      </rect>
     </property>
     <property name="text">
-     <string>Plot</string>
+     <string>Start</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonStop">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>170</y>
+      <width>89</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Stop</string>
     </property>
    </widget>
   </widget>

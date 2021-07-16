@@ -17,7 +17,6 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QRadioButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
@@ -30,9 +29,8 @@ class Ui_MainWindow
 public:
     QWidget *centralWidget;
     QCustomPlot *widgetGraph;
-    QRadioButton *radioButtonQuadratic;
-    QRadioButton *radioButtonCubic;
     QPushButton *pushButtonPlot;
+    QPushButton *pushButtonStop;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -48,19 +46,12 @@ public:
         widgetGraph = new QCustomPlot(centralWidget);
         widgetGraph->setObjectName(QStringLiteral("widgetGraph"));
         widgetGraph->setGeometry(QRect(170, 100, 431, 291));
-        radioButtonQuadratic = new QRadioButton(centralWidget);
-        buttonGroupRadio = new QButtonGroup(MainWindow);
-        buttonGroupRadio->setObjectName(QStringLiteral("buttonGroupRadio"));
-        buttonGroupRadio->addButton(radioButtonQuadratic);
-        radioButtonQuadratic->setObjectName(QStringLiteral("radioButtonQuadratic"));
-        radioButtonQuadratic->setGeometry(QRect(20, 110, 112, 23));
-        radioButtonCubic = new QRadioButton(centralWidget);
-        buttonGroupRadio->addButton(radioButtonCubic);
-        radioButtonCubic->setObjectName(QStringLiteral("radioButtonCubic"));
-        radioButtonCubic->setGeometry(QRect(20, 150, 112, 23));
         pushButtonPlot = new QPushButton(centralWidget);
         pushButtonPlot->setObjectName(QStringLiteral("pushButtonPlot"));
-        pushButtonPlot->setGeometry(QRect(20, 290, 89, 25));
+        pushButtonPlot->setGeometry(QRect(20, 130, 89, 25));
+        pushButtonStop = new QPushButton(centralWidget);
+        pushButtonStop->setObjectName(QStringLiteral("pushButtonStop"));
+        pushButtonStop->setGeometry(QRect(20, 170, 89, 25));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -81,9 +72,8 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
-        radioButtonQuadratic->setText(QApplication::translate("MainWindow", "quadratic", Q_NULLPTR));
-        radioButtonCubic->setText(QApplication::translate("MainWindow", "cubic", Q_NULLPTR));
-        pushButtonPlot->setText(QApplication::translate("MainWindow", "Plot", Q_NULLPTR));
+        pushButtonPlot->setText(QApplication::translate("MainWindow", "Start", Q_NULLPTR));
+        pushButtonStop->setText(QApplication::translate("MainWindow", "Stop", Q_NULLPTR));
     } // retranslateUi
 
 };
