@@ -45,7 +45,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButtonPlot_clicked()
 {
     if (!tmr->isActive())
-        tmr->start(10);
+        tmr->start(5);
 }
 
 void MainWindow::on_pushButtonStop_clicked()

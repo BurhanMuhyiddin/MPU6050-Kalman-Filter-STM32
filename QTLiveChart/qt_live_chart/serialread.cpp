@@ -2,18 +2,11 @@
 
 SerialRead::SerialRead(QObject *parent) : QObject(parent)
 {
-    serialPortThread = new QThread();
-
     stmBoard = new QSerialPort(this);
     spc = new SerialPortConfiguration();
     isBoardAvailable = false;
 
     initPort();
-
-//    this->moveToThread(serialPortThread);
-//    stmBoard->moveToThread(serialPortThread);
-
-    serialPortThread->start();
 }
 
 SerialRead::~SerialRead()
@@ -22,16 +15,11 @@ SerialRead::~SerialRead()
         stmBoard->close();
 
     delete spc;
-
-    serialPortThread->quit();
-    serialPortThread->wait();
-    serialPortThread->deleteLater();
-    qDebug() << "SerialPort thread has been stopped...\n";
 }
 
 void SerialRead::readSerialData()
 {
-    qDebug() << "New data...\n";
+//    qDebug() << "New data...\n";
     QByteArray inputData = stmBoard->readAll();
     emit receiveData(inputData);
 }

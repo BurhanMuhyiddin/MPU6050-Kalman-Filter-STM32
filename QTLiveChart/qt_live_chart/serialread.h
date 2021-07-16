@@ -6,7 +6,6 @@
 #include <QSerialPortInfo>
 #include <QByteArray>
 #include <QDebug>
-#include <QThread>
 
 class SerialRead : public QObject
 {
@@ -23,7 +22,6 @@ public slots:
 
 private:
     QSerialPort *stmBoard;
-    QThread *serialPortThread;
     const quint16 stmDiscovery_vendorID = 6790;
     const quint16 stmDiscovery_productID = 29987;
     bool isBoardAvailable;
