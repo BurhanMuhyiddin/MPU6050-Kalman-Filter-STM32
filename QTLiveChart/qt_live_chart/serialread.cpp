@@ -68,7 +68,9 @@ void SerialRead::initPort()
             qDebug() << Q_FUNC_INFO << stmBoard->setStopBits(spc->stopBit);
             QObject::connect(stmBoard, SIGNAL(readyRead()), this, SLOT(readSerialData()));
             if(stmBoard->isOpen())
+            {
                 qDebug() << "Port is open...\n";
+            }
             else
                 qDebug() << "Port is not open...\n";
         } catch (...) {

@@ -1711,187 +1711,188 @@ int main(void)
  80012fe:	f107 004c 	add.w	r0, r7, #76	; 0x4c
  8001302:	ed97 0a4c 	vldr	s0, [r7, #304]	; 0x130
  8001306:	f7ff fe1b 	bl	8000f40 <KalmanFilter_initialize>
-  KalmanFilter_initialize(&kalman_roll, xHat, p, q, r);
+  KalmanFilter_initialize(&kalman_pitch, xHat, p, q, r);
  800130a:	f107 0398 	add.w	r3, r7, #152	; 0x98
  800130e:	f107 02a8 	add.w	r2, r7, #168	; 0xa8
  8001312:	f107 01b8 	add.w	r1, r7, #184	; 0xb8
- 8001316:	f107 004c 	add.w	r0, r7, #76	; 0x4c
- 800131a:	ed97 0a4c 	vldr	s0, [r7, #304]	; 0x130
- 800131e:	f7ff fe0f 	bl	8000f40 <KalmanFilter_initialize>
+ 8001316:	4638      	mov	r0, r7
+ 8001318:	ed97 0a4c 	vldr	s0, [r7, #304]	; 0x130
+ 800131c:	f7ff fe10 	bl	8000f40 <KalmanFilter_initialize>
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   gyro_angle.roll = 0.0;
- 8001322:	f04f 0300 	mov.w	r3, #0
- 8001326:	f8c7 30d8 	str.w	r3, [r7, #216]	; 0xd8
+ 8001320:	f04f 0300 	mov.w	r3, #0
+ 8001324:	f8c7 30d8 	str.w	r3, [r7, #216]	; 0xd8
   gyro_angle.pitch = 0.0;
- 800132a:	f04f 0300 	mov.w	r3, #0
- 800132e:	f8c7 30dc 	str.w	r3, [r7, #220]	; 0xdc
+ 8001328:	f04f 0300 	mov.w	r3, #0
+ 800132c:	f8c7 30dc 	str.w	r3, [r7, #220]	; 0xdc
   gyro_angle.yaw = 0.0;
- 8001332:	f04f 0300 	mov.w	r3, #0
- 8001336:	f8c7 30e0 	str.w	r3, [r7, #224]	; 0xe0
+ 8001330:	f04f 0300 	mov.w	r3, #0
+ 8001334:	f8c7 30e0 	str.w	r3, [r7, #224]	; 0xe0
 
   while (1)
   {
     /* USER CODE END WHILE */
 
 	  MPU6050_Get_Accel_ScaledData(&accelScaledData);
- 800133a:	f107 03fc 	add.w	r3, r7, #252	; 0xfc
- 800133e:	4618      	mov	r0, r3
- 8001340:	f000 fb5a 	bl	80019f8 <MPU6050_Get_Accel_ScaledData>
+ 8001338:	f107 03fc 	add.w	r3, r7, #252	; 0xfc
+ 800133c:	4618      	mov	r0, r3
+ 800133e:	f000 fb5b 	bl	80019f8 <MPU6050_Get_Accel_ScaledData>
 	  MPU6050_Get_Gyro_ScaledData(&gyroScaledData);
- 8001344:	f107 03f0 	add.w	r3, r7, #240	; 0xf0
- 8001348:	4618      	mov	r0, r3
- 800134a:	f000 fbb9 	bl	8001ac0 <MPU6050_Get_Gyro_ScaledData>
+ 8001342:	f107 03f0 	add.w	r3, r7, #240	; 0xf0
+ 8001346:	4618      	mov	r0, r3
+ 8001348:	f000 fbba 	bl	8001ac0 <MPU6050_Get_Gyro_ScaledData>
 
 	  getTiltAngle_Accel(&accelScaledData, &acc_angle);
- 800134e:	f107 02e4 	add.w	r2, r7, #228	; 0xe4
- 8001352:	f107 03fc 	add.w	r3, r7, #252	; 0xfc
- 8001356:	4611      	mov	r1, r2
- 8001358:	4618      	mov	r0, r3
- 800135a:	f000 fbeb 	bl	8001b34 <getTiltAngle_Accel>
+ 800134c:	f107 02e4 	add.w	r2, r7, #228	; 0xe4
+ 8001350:	f107 03fc 	add.w	r3, r7, #252	; 0xfc
+ 8001354:	4611      	mov	r1, r2
+ 8001356:	4618      	mov	r0, r3
+ 8001358:	f000 fbec 	bl	8001b34 <getTiltAngle_Accel>
 
 	  dt = (HAL_GetTick() - old_time_instant) / 1000.0;
- 800135e:	f000 febb 	bl	80020d8 <HAL_GetTick>
- 8001362:	ee07 0a90 	vmov	s15, r0
- 8001366:	eeb8 7a67 	vcvt.f32.u32	s14, s15
- 800136a:	edd7 7a4d 	vldr	s15, [r7, #308]	; 0x134
- 800136e:	ee37 7a67 	vsub.f32	s14, s14, s15
- 8001372:	eddf 6a5d 	vldr	s13, [pc, #372]	; 80014e8 <main+0x2a0>
- 8001376:	eec7 7a26 	vdiv.f32	s15, s14, s13
- 800137a:	edc7 7a4b 	vstr	s15, [r7, #300]	; 0x12c
+ 800135c:	f000 febc 	bl	80020d8 <HAL_GetTick>
+ 8001360:	ee07 0a90 	vmov	s15, r0
+ 8001364:	eeb8 7a67 	vcvt.f32.u32	s14, s15
+ 8001368:	edd7 7a4d 	vldr	s15, [r7, #308]	; 0x134
+ 800136c:	ee37 7a67 	vsub.f32	s14, s14, s15
+ 8001370:	eddf 6a5d 	vldr	s13, [pc, #372]	; 80014e8 <main+0x2a0>
+ 8001374:	eec7 7a26 	vdiv.f32	s15, s14, s13
+ 8001378:	edc7 7a4b 	vstr	s15, [r7, #300]	; 0x12c
 	  old_time_instant = HAL_GetTick();
- 800137e:	f000 feab 	bl	80020d8 <HAL_GetTick>
- 8001382:	ee07 0a90 	vmov	s15, r0
- 8001386:	eef8 7a67 	vcvt.f32.u32	s15, s15
- 800138a:	edc7 7a4d 	vstr	s15, [r7, #308]	; 0x134
+ 800137c:	f000 feac 	bl	80020d8 <HAL_GetTick>
+ 8001380:	ee07 0a90 	vmov	s15, r0
+ 8001384:	eef8 7a67 	vcvt.f32.u32	s15, s15
+ 8001388:	edc7 7a4d 	vstr	s15, [r7, #308]	; 0x134
 
 	  getTiltAngle_Gyro(&gyroScaledData, dt, &gyro_angle);
- 800138e:	f107 02d8 	add.w	r2, r7, #216	; 0xd8
- 8001392:	f107 03f0 	add.w	r3, r7, #240	; 0xf0
- 8001396:	4611      	mov	r1, r2
- 8001398:	ed97 0a4b 	vldr	s0, [r7, #300]	; 0x12c
- 800139c:	4618      	mov	r0, r3
- 800139e:	f000 fc16 	bl	8001bce <getTiltAngle_Gyro>
+ 800138c:	f107 02d8 	add.w	r2, r7, #216	; 0xd8
+ 8001390:	f107 03f0 	add.w	r3, r7, #240	; 0xf0
+ 8001394:	4611      	mov	r1, r2
+ 8001396:	ed97 0a4b 	vldr	s0, [r7, #300]	; 0x12c
+ 800139a:	4618      	mov	r0, r3
+ 800139c:	f000 fc17 	bl	8001bce <getTiltAngle_Gyro>
 
 	  allData[0] = acc_angle.roll;
- 80013a2:	f8d7 30e4 	ldr.w	r3, [r7, #228]	; 0xe4
- 80013a6:	f8c7 3108 	str.w	r3, [r7, #264]	; 0x108
+ 80013a0:	f8d7 30e4 	ldr.w	r3, [r7, #228]	; 0xe4
+ 80013a4:	f8c7 3108 	str.w	r3, [r7, #264]	; 0x108
 	  allData[1] = acc_angle.pitch;
- 80013aa:	f8d7 30e8 	ldr.w	r3, [r7, #232]	; 0xe8
- 80013ae:	f8c7 310c 	str.w	r3, [r7, #268]	; 0x10c
+ 80013a8:	f8d7 30e8 	ldr.w	r3, [r7, #232]	; 0xe8
+ 80013ac:	f8c7 310c 	str.w	r3, [r7, #268]	; 0x10c
 	  allData[2] = acc_angle.yaw;
- 80013b2:	f8d7 30ec 	ldr.w	r3, [r7, #236]	; 0xec
- 80013b6:	f8c7 3110 	str.w	r3, [r7, #272]	; 0x110
+ 80013b0:	f8d7 30ec 	ldr.w	r3, [r7, #236]	; 0xec
+ 80013b4:	f8c7 3110 	str.w	r3, [r7, #272]	; 0x110
 	  allData[3] = gyro_angle.roll * DEG2RAD;
- 80013ba:	f8d7 30d8 	ldr.w	r3, [r7, #216]	; 0xd8
- 80013be:	4618      	mov	r0, r3
- 80013c0:	f7ff f8c2 	bl	8000548 <__aeabi_f2d>
- 80013c4:	a342      	add	r3, pc, #264	; (adr r3, 80014d0 <main+0x288>)
- 80013c6:	e9d3 2300 	ldrd	r2, r3, [r3]
- 80013ca:	f7ff f915 	bl	80005f8 <__aeabi_dmul>
- 80013ce:	4602      	mov	r2, r0
- 80013d0:	460b      	mov	r3, r1
- 80013d2:	4610      	mov	r0, r2
- 80013d4:	4619      	mov	r1, r3
- 80013d6:	f7ff fbe7 	bl	8000ba8 <__aeabi_d2f>
- 80013da:	4603      	mov	r3, r0
- 80013dc:	f8c7 3114 	str.w	r3, [r7, #276]	; 0x114
+ 80013b8:	f8d7 30d8 	ldr.w	r3, [r7, #216]	; 0xd8
+ 80013bc:	4618      	mov	r0, r3
+ 80013be:	f7ff f8c3 	bl	8000548 <__aeabi_f2d>
+ 80013c2:	a343      	add	r3, pc, #268	; (adr r3, 80014d0 <main+0x288>)
+ 80013c4:	e9d3 2300 	ldrd	r2, r3, [r3]
+ 80013c8:	f7ff f916 	bl	80005f8 <__aeabi_dmul>
+ 80013cc:	4602      	mov	r2, r0
+ 80013ce:	460b      	mov	r3, r1
+ 80013d0:	4610      	mov	r0, r2
+ 80013d2:	4619      	mov	r1, r3
+ 80013d4:	f7ff fbe8 	bl	8000ba8 <__aeabi_d2f>
+ 80013d8:	4603      	mov	r3, r0
+ 80013da:	f8c7 3114 	str.w	r3, [r7, #276]	; 0x114
 	  allData[4] = gyro_angle.pitch * DEG2RAD;
- 80013e0:	f8d7 30dc 	ldr.w	r3, [r7, #220]	; 0xdc
- 80013e4:	4618      	mov	r0, r3
- 80013e6:	f7ff f8af 	bl	8000548 <__aeabi_f2d>
- 80013ea:	a339      	add	r3, pc, #228	; (adr r3, 80014d0 <main+0x288>)
- 80013ec:	e9d3 2300 	ldrd	r2, r3, [r3]
- 80013f0:	f7ff f902 	bl	80005f8 <__aeabi_dmul>
- 80013f4:	4602      	mov	r2, r0
- 80013f6:	460b      	mov	r3, r1
- 80013f8:	4610      	mov	r0, r2
- 80013fa:	4619      	mov	r1, r3
- 80013fc:	f7ff fbd4 	bl	8000ba8 <__aeabi_d2f>
- 8001400:	4603      	mov	r3, r0
- 8001402:	f8c7 3118 	str.w	r3, [r7, #280]	; 0x118
+ 80013de:	f8d7 30dc 	ldr.w	r3, [r7, #220]	; 0xdc
+ 80013e2:	4618      	mov	r0, r3
+ 80013e4:	f7ff f8b0 	bl	8000548 <__aeabi_f2d>
+ 80013e8:	a339      	add	r3, pc, #228	; (adr r3, 80014d0 <main+0x288>)
+ 80013ea:	e9d3 2300 	ldrd	r2, r3, [r3]
+ 80013ee:	f7ff f903 	bl	80005f8 <__aeabi_dmul>
+ 80013f2:	4602      	mov	r2, r0
+ 80013f4:	460b      	mov	r3, r1
+ 80013f6:	4610      	mov	r0, r2
+ 80013f8:	4619      	mov	r1, r3
+ 80013fa:	f7ff fbd5 	bl	8000ba8 <__aeabi_d2f>
+ 80013fe:	4603      	mov	r3, r0
+ 8001400:	f8c7 3118 	str.w	r3, [r7, #280]	; 0x118
 	  allData[5] = gyro_angle.yaw * DEG2RAD;
- 8001406:	f8d7 30e0 	ldr.w	r3, [r7, #224]	; 0xe0
- 800140a:	4618      	mov	r0, r3
- 800140c:	f7ff f89c 	bl	8000548 <__aeabi_f2d>
- 8001410:	a32f      	add	r3, pc, #188	; (adr r3, 80014d0 <main+0x288>)
- 8001412:	e9d3 2300 	ldrd	r2, r3, [r3]
- 8001416:	f7ff f8ef 	bl	80005f8 <__aeabi_dmul>
- 800141a:	4602      	mov	r2, r0
- 800141c:	460b      	mov	r3, r1
- 800141e:	4610      	mov	r0, r2
- 8001420:	4619      	mov	r1, r3
- 8001422:	f7ff fbc1 	bl	8000ba8 <__aeabi_d2f>
- 8001426:	4603      	mov	r3, r0
- 8001428:	f8c7 311c 	str.w	r3, [r7, #284]	; 0x11c
+ 8001404:	f8d7 30e0 	ldr.w	r3, [r7, #224]	; 0xe0
+ 8001408:	4618      	mov	r0, r3
+ 800140a:	f7ff f89d 	bl	8000548 <__aeabi_f2d>
+ 800140e:	a330      	add	r3, pc, #192	; (adr r3, 80014d0 <main+0x288>)
+ 8001410:	e9d3 2300 	ldrd	r2, r3, [r3]
+ 8001414:	f7ff f8f0 	bl	80005f8 <__aeabi_dmul>
+ 8001418:	4602      	mov	r2, r0
+ 800141a:	460b      	mov	r3, r1
+ 800141c:	4610      	mov	r0, r2
+ 800141e:	4619      	mov	r1, r3
+ 8001420:	f7ff fbc2 	bl	8000ba8 <__aeabi_d2f>
+ 8001424:	4603      	mov	r3, r0
+ 8001426:	f8c7 311c 	str.w	r3, [r7, #284]	; 0x11c
 
 	  // Apply kalman filter
 	  KalmanFilter_update(&kalman_roll, allData[3], allData[0], dt);
- 800142c:	edd7 7a45 	vldr	s15, [r7, #276]	; 0x114
- 8001430:	ed97 7a42 	vldr	s14, [r7, #264]	; 0x108
- 8001434:	f107 034c 	add.w	r3, r7, #76	; 0x4c
- 8001438:	ed97 1a4b 	vldr	s2, [r7, #300]	; 0x12c
- 800143c:	eef0 0a47 	vmov.f32	s1, s14
- 8001440:	eeb0 0a67 	vmov.f32	s0, s15
- 8001444:	4618      	mov	r0, r3
- 8001446:	f7ff fde7 	bl	8001018 <KalmanFilter_update>
+ 800142a:	edd7 7a45 	vldr	s15, [r7, #276]	; 0x114
+ 800142e:	ed97 7a42 	vldr	s14, [r7, #264]	; 0x108
+ 8001432:	f107 034c 	add.w	r3, r7, #76	; 0x4c
+ 8001436:	ed97 1a4b 	vldr	s2, [r7, #300]	; 0x12c
+ 800143a:	eef0 0a47 	vmov.f32	s1, s14
+ 800143e:	eeb0 0a67 	vmov.f32	s0, s15
+ 8001442:	4618      	mov	r0, r3
+ 8001444:	f7ff fde8 	bl	8001018 <KalmanFilter_update>
 	  angles[0] = allData[0];
- 800144a:	f8d7 3108 	ldr.w	r3, [r7, #264]	; 0x108
- 800144e:	f8c7 30c0 	str.w	r3, [r7, #192]	; 0xc0
+ 8001448:	f8d7 3108 	ldr.w	r3, [r7, #264]	; 0x108
+ 800144c:	f8c7 30c0 	str.w	r3, [r7, #192]	; 0xc0
 	  angles[1] = allData[3];
- 8001452:	f8d7 3114 	ldr.w	r3, [r7, #276]	; 0x114
- 8001456:	f8c7 30c4 	str.w	r3, [r7, #196]	; 0xc4
+ 8001450:	f8d7 3114 	ldr.w	r3, [r7, #276]	; 0x114
+ 8001454:	f8c7 30c4 	str.w	r3, [r7, #196]	; 0xc4
 	  angles[2] = KalmanFilter_getAngle(&kalman_roll);
- 800145a:	f107 034c 	add.w	r3, r7, #76	; 0x4c
- 800145e:	4618      	mov	r0, r3
- 8001460:	f7ff fee2 	bl	8001228 <KalmanFilter_getAngle>
- 8001464:	eef0 7a40 	vmov.f32	s15, s0
- 8001468:	edc7 7a32 	vstr	s15, [r7, #200]	; 0xc8
+ 8001458:	f107 034c 	add.w	r3, r7, #76	; 0x4c
+ 800145c:	4618      	mov	r0, r3
+ 800145e:	f7ff fee3 	bl	8001228 <KalmanFilter_getAngle>
+ 8001462:	eef0 7a40 	vmov.f32	s15, s0
+ 8001466:	edc7 7a32 	vstr	s15, [r7, #200]	; 0xc8
 
 	  KalmanFilter_update(&kalman_pitch, allData[4], allData[1], dt);
- 800146c:	edd7 7a46 	vldr	s15, [r7, #280]	; 0x118
- 8001470:	ed97 7a43 	vldr	s14, [r7, #268]	; 0x10c
- 8001474:	463b      	mov	r3, r7
- 8001476:	ed97 1a4b 	vldr	s2, [r7, #300]	; 0x12c
- 800147a:	eef0 0a47 	vmov.f32	s1, s14
- 800147e:	eeb0 0a67 	vmov.f32	s0, s15
- 8001482:	4618      	mov	r0, r3
- 8001484:	f7ff fdc8 	bl	8001018 <KalmanFilter_update>
+ 800146a:	edd7 7a46 	vldr	s15, [r7, #280]	; 0x118
+ 800146e:	ed97 7a43 	vldr	s14, [r7, #268]	; 0x10c
+ 8001472:	463b      	mov	r3, r7
+ 8001474:	ed97 1a4b 	vldr	s2, [r7, #300]	; 0x12c
+ 8001478:	eef0 0a47 	vmov.f32	s1, s14
+ 800147c:	eeb0 0a67 	vmov.f32	s0, s15
+ 8001480:	4618      	mov	r0, r3
+ 8001482:	f7ff fdc9 	bl	8001018 <KalmanFilter_update>
 	  angles[3] = allData[1];
- 8001488:	f8d7 310c 	ldr.w	r3, [r7, #268]	; 0x10c
- 800148c:	f8c7 30cc 	str.w	r3, [r7, #204]	; 0xcc
+ 8001486:	f8d7 310c 	ldr.w	r3, [r7, #268]	; 0x10c
+ 800148a:	f8c7 30cc 	str.w	r3, [r7, #204]	; 0xcc
 	  angles[4] = allData[4];
- 8001490:	f8d7 3118 	ldr.w	r3, [r7, #280]	; 0x118
- 8001494:	f8c7 30d0 	str.w	r3, [r7, #208]	; 0xd0
+ 800148e:	f8d7 3118 	ldr.w	r3, [r7, #280]	; 0x118
+ 8001492:	f8c7 30d0 	str.w	r3, [r7, #208]	; 0xd0
 	  angles[5] = KalmanFilter_getAngle(&kalman_pitch);
- 8001498:	463b      	mov	r3, r7
- 800149a:	4618      	mov	r0, r3
- 800149c:	f7ff fec4 	bl	8001228 <KalmanFilter_getAngle>
- 80014a0:	eef0 7a40 	vmov.f32	s15, s0
- 80014a4:	edc7 7a35 	vstr	s15, [r7, #212]	; 0xd4
+ 8001496:	463b      	mov	r3, r7
+ 8001498:	4618      	mov	r0, r3
+ 800149a:	f7ff fec5 	bl	8001228 <KalmanFilter_getAngle>
+ 800149e:	eef0 7a40 	vmov.f32	s15, s0
+ 80014a2:	edc7 7a35 	vstr	s15, [r7, #212]	; 0xd4
 
 	  uint8_t *byteData = (uint8_t *) (angles);
- 80014a8:	f107 03c0 	add.w	r3, r7, #192	; 0xc0
- 80014ac:	f8c7 3128 	str.w	r3, [r7, #296]	; 0x128
+ 80014a6:	f107 03c0 	add.w	r3, r7, #192	; 0xc0
+ 80014aa:	f8c7 3128 	str.w	r3, [r7, #296]	; 0x128
 	  HAL_UART_Transmit(&huart2, byteData, sizeof(angles), 100);
- 80014b0:	2364      	movs	r3, #100	; 0x64
- 80014b2:	2218      	movs	r2, #24
- 80014b4:	f8d7 1128 	ldr.w	r1, [r7, #296]	; 0x128
- 80014b8:	480c      	ldr	r0, [pc, #48]	; (80014ec <main+0x2a4>)
- 80014ba:	f002 fd4a 	bl	8003f52 <HAL_UART_Transmit>
+ 80014ae:	2364      	movs	r3, #100	; 0x64
+ 80014b0:	2218      	movs	r2, #24
+ 80014b2:	f8d7 1128 	ldr.w	r1, [r7, #296]	; 0x128
+ 80014b6:	480d      	ldr	r0, [pc, #52]	; (80014ec <main+0x2a4>)
+ 80014b8:	f002 fd4b 	bl	8003f52 <HAL_UART_Transmit>
 
 	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
- 80014be:	f44f 5180 	mov.w	r1, #4096	; 0x1000
- 80014c2:	480b      	ldr	r0, [pc, #44]	; (80014f0 <main+0x2a8>)
- 80014c4:	f001 f8d3 	bl	800266e <HAL_GPIO_TogglePin>
+ 80014bc:	f44f 5180 	mov.w	r1, #4096	; 0x1000
+ 80014c0:	480b      	ldr	r0, [pc, #44]	; (80014f0 <main+0x2a8>)
+ 80014c2:	f001 f8d4 	bl	800266e <HAL_GPIO_TogglePin>
 	  HAL_Delay(10);
- 80014c8:	200a      	movs	r0, #10
- 80014ca:	f000 fe11 	bl	80020f0 <HAL_Delay>
+ 80014c6:	200a      	movs	r0, #10
+ 80014c8:	f000 fe12 	bl	80020f0 <HAL_Delay>
   {
- 80014ce:	e734      	b.n	800133a <main+0xf2>
+ 80014cc:	e734      	b.n	8001338 <main+0xf0>
+ 80014ce:	bf00      	nop
  80014d0:	22d4405f 	.word	0x22d4405f
  80014d4:	3f91df47 	.word	0x3f91df47
  80014d8:	20000268 	.word	0x20000268

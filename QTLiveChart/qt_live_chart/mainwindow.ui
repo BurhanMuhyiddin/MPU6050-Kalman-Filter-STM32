@@ -6,21 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>613</width>
-    <height>458</height>
+    <width>850</width>
+    <height>350</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QCustomPlot" name="widgetGraph" native="true">
+   <widget class="QCustomPlot" name="widgetGraphPitch" native="true">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>100</y>
-      <width>431</width>
-      <height>291</height>
+      <x>470</x>
+      <y>10</y>
+      <width>341</width>
+      <height>231</height>
      </rect>
     </property>
    </widget>
@@ -50,13 +50,23 @@
      <string>Stop</string>
     </property>
    </widget>
+   <widget class="QCustomPlot" name="widgetGraphRoll" native="true">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>10</y>
+      <width>341</width>
+      <height>231</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>613</width>
+     <width>850</width>
      <height>22</height>
     </rect>
    </property>
@@ -82,7 +92,4 @@
  </customwidgets>
  <resources/>
  <connections/>
- <buttongroups>
-  <buttongroup name="buttonGroupRadio"/>
- </buttongroups>
 </ui>

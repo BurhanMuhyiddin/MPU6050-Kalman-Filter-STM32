@@ -121,7 +121,7 @@ int main(void)
   Kalman_ParamsTypeDef kalman_roll, kalman_pitch;
 
   KalmanFilter_initialize(&kalman_roll, xHat, p, q, r);
-  KalmanFilter_initialize(&kalman_roll, xHat, p, q, r);
+  KalmanFilter_initialize(&kalman_pitch, xHat, p, q, r);
 
   /* USER CODE END 2 */
 

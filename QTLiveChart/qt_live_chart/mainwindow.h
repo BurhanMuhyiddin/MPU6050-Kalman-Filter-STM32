@@ -52,6 +52,7 @@ private:
     SerialRead *sr;
 
     bool flg;
+    bool isConnected;
 
     FixedQueue<float, 50> plotData[6];
 
